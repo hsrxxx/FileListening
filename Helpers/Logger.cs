@@ -7,6 +7,7 @@ namespace FileListening
     public class Logger
     {
         public string logContent;
+        public string LogFolderName = "FileListeningLogs";
 
         /// <summary>
         /// 追加日志信息
@@ -20,13 +21,12 @@ namespace FileListening
         /// <summary>
         /// 保存日志信息
         /// </summary>
-        /// <param name="InterfaceName">接口名称</param>
+        /// <param name="FolderName">类型文件夹名称</param>
         /// <param name="LogName">日志名称</param>
         /// <param name="ErrorMsg">错误返回信息</param>
         /// <returns></returns>
-        public bool SaveLog(string InterfaceName, string LogName, out string ErrorMsg)
+        public bool SaveLog(string FolderName, string LogName, out string ErrorMsg)
         {
-            bool flag;
             try
             {
                 //读取配置的盘符
@@ -36,7 +36,7 @@ namespace FileListening
                 if (LogPath == "")
                 {
                     // 获取最后一个盘符的路径
-                    LogPath = Directory.GetLogicalDrives()[0] + "OrBitWebLogs";
+                    LogPath = Directory.GetLogicalDrives()[0] + LogFolderName;
                 }
                 else
                 {
@@ -47,13 +47,13 @@ namespace FileListening
                         if (!Directory.GetLogicalDrives().Contains(LogPath.Substring(0, 1) + @":\"))
                         {
                             // 获取第一个盘符的路径
-                            LogPath = Directory.GetLogicalDrives()[0] + "OrBitWebLogs";
+                            LogPath = Directory.GetLogicalDrives()[0] + LogFolderName;
                         }
                     }
                 }
 
                 //全地址
-                LogPath = @LogPath + @"\" + InterfaceName;
+                LogPath = @LogPath + @"\" + FolderName;
 
                 if (logContent == "")
                 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Data;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -83,7 +84,11 @@ namespace FileListening
             }
         }
 
-        //测试WCF是否联通
+        /// <summary>
+        /// 测试WCF是否联通
+        /// </summary>
+        /// <param name="WCFAddress"></param>
+        /// <returns></returns>
         public static bool TestConnectMES(string WCFAddress)
         {
             string Sql = @"select 1";
@@ -96,7 +101,13 @@ namespace FileListening
             }
             return true;
         }
-        //获取WCF测试地址
+
+        /// <summary>
+        /// 获取WCF测试地址
+        /// </summary>
+        /// <param name="StrType"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
         public static string GetWCFAddress(string StrType, out bool flag)
         {
             string WCFAddress = "";
@@ -137,21 +148,40 @@ namespace FileListening
 
         }
 
-        //序列化
-        public static string ObjectToJson(object ob)
+        /// <summary>
+        /// 对象转Json
+        /// </summary>
+        /// <param name="ob"></param>
+        /// <returns></returns>
+        public static string ObjectToJson(object o)
         {
             string JsonStr = "";
             try
             {
-                JsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(ob);
-
+                JsonStr = JsonConvert.SerializeObject(o);
                 return JsonStr;
-
             }
             catch (Exception ex)
             {
                 JsonStr = ex.Message;
                 return JsonStr;
+            }
+        }
+
+        /// <summary>
+        /// Json转对象
+        /// </summary>
+        /// <param name="ob"></param>
+        /// <returns></returns>
+        public static T JsonToObject<T>(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (Exception)
+            {
+                return default(T);
             }
         }
     }
